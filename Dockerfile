@@ -1,0 +1,1 @@
+FROM russtedrake/manipulation:latest
