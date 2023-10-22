@@ -1,0 +1,4 @@
+1. Add inertia to SDF file
+2. Read DeepNote multibody simulation tutorial: https://deepnote.com/workspace/Drake-0b3b2c53-a7ad-441b-80f8-bf8350752305/project/Tutorials-2b4fc509-aef2-417d-a40d-6071dfed9199/notebook/authoring_multibody_simulation-add293478aac40a984845aa3705eefdd?https://deepnote.com/workspace/Drake-0b3b2c53-a7ad-441b-80f8-bf8350752305/project/Tutorials-2b4fc509-aef2-417d-a40d-6071dfed9199/notebook/authoring_multibody_simulation-add293478aac40a984845aa3705eefdd?
+
+
