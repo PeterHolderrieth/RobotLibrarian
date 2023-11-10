@@ -1,6 +1,8 @@
 Peter:
-- Cameras as camera objects need to have the same frame as camera as visuals
-- Make code modular and in python script that loads environment and sets it up
+- Perception of book position (ICP)
+(- Perception of book label (deep perception))
+(- Antipodal grasping)
+
 
 Shiva:
 - adding book labels
