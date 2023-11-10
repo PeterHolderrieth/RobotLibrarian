@@ -1,0 +1,24 @@
+Peter:
+- Cameras as camera objects need to have the same frame as camera as visuals
+- Make code modular and in python script that loads environment and sets it up
+
+Shiva:
+- adding book labels
+- Adding the robot, i.e. Best way of making a scenario out of urdf? Something like this:
+
+scenario_data = """
+directives:
+- add_model:
+    name: mobile_iiwa
+    file: package://manipulation/mobile_iiwa14_primitive_collision.urdf
+    default_joint_positions:
+        iiwa_joint_1: [-1.57]
+        iiwa_joint_2: [0.1]
+        iiwa_joint_3: [0]
+        iiwa_joint_4: [-1.2]
+        iiwa_joint_5: [0]
+        iiwa_joint_6: [ 1.6]
+        iiwa_joint_7: [0]
+model_drivers:
+    mobile_iiwa: !InverseDynamicsDriver {}
+"""

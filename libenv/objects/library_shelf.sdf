@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <sdf version="1.7">
-  <model name="shelf_NUMBER">
+  <model name="book_shelf">
     <link name="shelves_body">
       <visual name="right_wall">
         <pose> 0 0.292 0 0 0 0</pose>
@@ -9,6 +9,11 @@
             <size>0.3 0.016 0.783</size>
           </box>
         </geometry>
+        <material>
+          <ambient>0.54509804, 0.27058824, 0.0745098 1</ambient> <!-- Optional: Adjust the color to your preference -->
+          <diffuse>0.54509804, 0.27058824, 0.0745098 1</diffuse> <!-- This is the brown color you provided -->
+          <specular>0.5 0.5 0.5 1</specular> <!-- Optional: Adjust the color to your preference -->
+        </material>
       </visual>
       <visual name="middle_wall">
         <pose> 0 0.0 0 0 0 0</pose>
@@ -17,6 +22,11 @@
             <size>0.3 0.016 0.783</size>
           </box>
         </geometry>
+        <material>
+          <ambient>0.54509804, 0.27058824, 0.0745098 1</ambient> <!-- Optional: Adjust the color to your preference -->
+          <diffuse>0.54509804, 0.27058824, 0.0745098 1</diffuse> <!-- This is the brown color you provided -->
+          <specular>0.5 0.5 0.5 1</specular> <!-- Optional: Adjust the color to your preference -->
+        </material>
       </visual>
       <visual name="left_wall">
         <pose> 0 -0.292 0 0 0 0</pose>
@@ -25,6 +35,11 @@
             <size>0.3 0.016 0.783</size>
           </box>
         </geometry>
+        <material>
+          <ambient>0.54509804, 0.27058824, 0.0745098 1</ambient> <!-- Optional: Adjust the color to your preference -->
+          <diffuse>0.54509804, 0.27058824, 0.0745098 1</diffuse> <!-- This is the brown color you provided -->
+          <specular>0.5 0.5 0.5 1</specular> <!-- Optional: Adjust the color to your preference -->
+        </material>
       </visual>
       <collision name="right_wall">
         <pose> 0 0.292 0 0 0 0</pose>

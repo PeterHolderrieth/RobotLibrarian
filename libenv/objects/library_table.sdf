@@ -9,6 +9,11 @@
             <size>1.4 0.5 0.05</size>
           </box>
         </geometry>
+        <material>
+          <ambient>0.0, 0.0, 0.0.</ambient> <!-- Optional: Adjust the color to your preference -->
+          <diffuse>0.0, 0.0, 0.0.</diffuse> <!-- This is the brown color you provided -->
+          <specular>0.5 0.5 0.5 1</specular> <!-- Optional: Adjust the color to your preference -->
+        </material>
         <!-- <material>
             <script>Gazebo/WoodPallet</script>
         </material> -->
@@ -110,6 +115,3 @@
     </link>
   </model>
 </sdf>
-
-
-
