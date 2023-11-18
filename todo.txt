@@ -1,7 +1,12 @@
 Peter:
 
-- Geometric "traditional" perception of book position (ICP)
-- Understand DINO model and GroundingDINO
+- Geometric "traditional" perception of book position (ICP):
+1. Point clouds are translated to actual book position (reason for that is that context is not used and simulation is advanced).
+How do I fix that?
+2. Cropping of point cloud: so far, we do it by hand (this is okay but not very generalizable).
+3. 
+
+- Understand GroundingDINO
 Goal: allow for two prompts:
 1. Prompt: "the first book on table".
 2. Prompt: "empty/taken shelf compartment"

@@ -9,7 +9,7 @@ N_ROWS = 3
 N_COLUMNS = 2
 SHELF_NAMES = "ABCDEFGHIJKLMNOPQRST"
 TABLE_OFFSET = [1.0,0.25,0.53]
-N_BOOKS = 10
+N_BOOKS = 1
 BOOK_DIST = 0.13
 
 def get_empty_scenario_data() -> str:

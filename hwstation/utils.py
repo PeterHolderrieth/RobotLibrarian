@@ -15,6 +15,8 @@ from pydrake.all import (
     Diagram
 )
 
+from manipulation.station import AddPointClouds
+
 import pydot
 
 def setup_builder(meshcat: Meshcat, scenario_data: str):
@@ -28,8 +30,20 @@ def setup_builder(meshcat: Meshcat, scenario_data: str):
 
     parser = Parser(plant)
     ConfigureParser(parser)
+
+    # Adding point cloud extractors:
+    to_point_cloud = AddPointClouds(
+        scenario=scenario, station=station, builder=builder, meshcat=meshcat
+    )
+
+    #Connect point clouds with output port:
+    for idx, name in enumerate(to_point_cloud.keys()):
+        builder.ExportOutput(
+            to_point_cloud[name].get_output_port(), name+"_ptcloud"
+        )
+
     
-    return builder, plant, scene_graph, station, parser
+    return builder, plant, scene_graph, station, parser, scenario
 
 def plot_and_simulate(meshcat: Meshcat, builder: DiagramBuilder, plant: MultibodyPlant, station: Diagram, time_end: float):
     plant.Finalize()
