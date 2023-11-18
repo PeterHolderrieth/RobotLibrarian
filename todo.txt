@@ -1,36 +1,13 @@
-Peter:
+Next steps - MVP:
+- Finding antipodal grasp (Shiva)
+- Remove point cloud offset to actual book position (Peter)
+- RRT planning to pick up single book + IK (Peter)
+- Planning to shelf (RRT/PRM)
+- Putting book on shelf 
+- Go back
 
-- Geometric "traditional" perception of book position (ICP):
-1. Point clouds are translated to actual book position (reason for that is that context is not used and simulation is advanced).
-How do I fix that?
-2. Cropping of point cloud: so far, we do it by hand (this is okay but not very generalizable).
-3. 
-
-- Understand GroundingDINO
-Goal: allow for two prompts:
-1. Prompt: "the first book on table".
-2. Prompt: "empty/taken shelf compartment"
-(- Perception of book label (deep perception))
-(- Antipodal grasping)
-
-
-Shiva:
-- adding book labels
-- Adding the robot, i.e. Best way of making a scenario out of urdf? Something like this:
-
-scenario_data = """
-directives:
-- add_model:
-    name: mobile_iiwa
-    file: package://manipulation/mobile_iiwa14_primitive_collision.urdf
-    default_joint_positions:
-        iiwa_joint_1: [-1.57]
-        iiwa_joint_2: [0.1]
-        iiwa_joint_3: [0]
-        iiwa_joint_4: [-1.2]
-        iiwa_joint_5: [0]
-        iiwa_joint_6: [ 1.6]
-        iiwa_joint_7: [0]
-model_drivers:
-    mobile_iiwa: !InverseDynamicsDriver {}
-"""
+Extensions:
+- Geometric perception of several books (point cloud segmentation, etc,)
+- Adding book labels + Perception of book labels
+- Weld camera on robot + Perception of empty shelf box
+- Graph of convex sets (GCS)

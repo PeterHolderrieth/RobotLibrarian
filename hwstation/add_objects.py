@@ -9,7 +9,7 @@ N_ROWS = 3
 N_COLUMNS = 2
 SHELF_NAMES = "ABCDEFGHIJKLMNOPQRST"
 TABLE_OFFSET = [1.0,0.25,0.53]
-N_BOOKS = 1
+N_BOOKS = 6
 BOOK_DIST = 0.13
 
 def get_empty_scenario_data() -> str:
@@ -157,6 +157,33 @@ def add_camera_visual(scenario_data) -> str:
 """
     return scenario_data
 
+def add_mobile_iiwa(scenario_data) -> str:
+    scenario_data += """
+- add_model:
+    name: mobile_iiwa
+    file: package://manipulation/mobile_iiwa14_primitive_collision.urdf
+    default_joint_positions:
+        iiwa_joint_1: [-1.57]
+        iiwa_joint_2: [0.1]
+        iiwa_joint_3: [0]
+        iiwa_joint_4: [-1.2]
+        iiwa_joint_5: [0]
+        iiwa_joint_6: [ 1.6]
+        iiwa_joint_7: [0]
+        iiwa_base_x: [1]
+        iiwa_base_y: [1.5]
+        iiwa_base_z: [0]
+- add_model:
+    name: wsg
+    file: package://drake/manipulation/models/wsg_50_description/sdf/schunk_wsg_50_with_tip.sdf
+- add_weld:
+    parent: mobile_iiwa::iiwa_link_7
+    child: wsg::body
+    X_PC:
+        translation: [0, 0, 0.09]
+        rotation: !Rpy { deg: [90, 0, 90]}
+    """
+    return scenario_data
 
 def add_cameras(scenario_data):
     return """
@@ -194,6 +221,7 @@ def get_library_scenario_data() -> str:
     scenario_data = add_shelves(scenario_data)
     scenario_data = add_table(scenario_data)
     scenario_data = add_books(scenario_data)
+    scenario_data = add_mobile_iiwa(scenario_data)
     scenario_data = add_camera_visual(scenario_data)
     scenario_data = add_cameras(scenario_data)
 
