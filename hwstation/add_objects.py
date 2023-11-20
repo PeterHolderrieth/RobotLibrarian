@@ -9,7 +9,7 @@ N_ROWS = 3
 N_COLUMNS = 2
 SHELF_NAMES = "ABCDEFGHIJKLMNOPQRST"
 TABLE_OFFSET = [1.0,0.25,0.53]
-N_BOOKS = 6
+N_BOOKS = 1
 BOOK_DIST = 0.13
 
 def get_empty_scenario_data() -> str:
@@ -222,6 +222,19 @@ def get_library_scenario_data() -> str:
     scenario_data = add_table(scenario_data)
     scenario_data = add_books(scenario_data)
     scenario_data = add_mobile_iiwa(scenario_data)
+    scenario_data = add_camera_visual(scenario_data)
+    scenario_data = add_cameras(scenario_data)
+
+    return scenario_data
+
+def get_library_scenario_data_without_robot() -> str:
+    """Add all objects to library environment"""
+    
+    scenario_data = get_empty_scenario_data()
+    scenario_data = add_ground_floor(scenario_data)
+    scenario_data = add_shelves(scenario_data)
+    scenario_data = add_table(scenario_data)
+    scenario_data = add_books(scenario_data)
     scenario_data = add_camera_visual(scenario_data)
     scenario_data = add_cameras(scenario_data)
 

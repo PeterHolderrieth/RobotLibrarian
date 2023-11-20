@@ -1,0 +1,165 @@
+
+directives:
+- add_model:
+    name: ground_floor
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/ground_floor.sdf
+- add_weld:
+    parent: world
+    child: ground_floor::ground_floor
+    X_PC:
+        translation: [0.0,0.0,0.0]
+
+- add_model:
+    name: shelf_A
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_A::shelves_body
+    X_PC:
+        translation: [1.7, 2.4, 0.42]
+
+- add_model:
+    name: shelf_B
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_B::shelves_body
+    X_PC:
+        translation: [1.7, 4.1, 0.42]
+
+- add_model:
+    name: shelf_C
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_C::shelves_body
+    X_PC:
+        translation: [3.4, 2.4, 0.42]
+
+- add_model:
+    name: shelf_D
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_D::shelves_body
+    X_PC:
+        translation: [3.4, 4.1, 0.42]
+
+- add_model:
+    name: shelf_E
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_E::shelves_body
+    X_PC:
+        translation: [5.1, 2.4, 0.42]
+
+- add_model:
+    name: shelf_F
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_F::shelves_body
+    X_PC:
+        translation: [5.1, 4.1, 0.42]
+
+- add_model:
+    name: table
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_table.sdf
+- add_weld:
+    parent: world
+    child: table
+    X_PC:
+        translation: [1.0, 0.25, 0.53]
+
+- add_model:
+    name: book_A
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+    default_free_body_pose:
+        book:
+            translation: [0.45999999999999996, 0.25, 0.64]
+            rotation: !Rpy { deg: [0, 0, -90]}
+
+- add_model:
+    name: mobile_iiwa
+    file: package://manipulation/mobile_iiwa14_primitive_collision.urdf
+    default_joint_positions:
+        iiwa_joint_1: [-1.57]
+        iiwa_joint_2: [0.1]
+        iiwa_joint_3: [0]
+        iiwa_joint_4: [-1.2]
+        iiwa_joint_5: [0]
+        iiwa_joint_6: [ 1.6]
+        iiwa_joint_7: [0]
+        iiwa_base_x: [1]
+        iiwa_base_y: [1.5]
+        iiwa_base_z: [0]
+- add_model:
+    name: wsg
+    file: package://drake/manipulation/models/wsg_50_description/sdf/schunk_wsg_50_with_tip.sdf
+- add_weld:
+    parent: mobile_iiwa::iiwa_link_7
+    child: wsg::body
+    X_PC:
+        translation: [0, 0, 0.09]
+        rotation: !Rpy { deg: [90, 0, 90]}
+    
+- add_frame:
+    name: camera_table_above
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [180.0, 0.0, 0.0]}
+        translation: [0., 0., 0.7]
+
+- add_model:
+    name: camera0
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_above
+    child: camera0::base
+
+- add_frame:
+    name: camera_table_left
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 90.0]}
+        translation: [0.9, 0., 0.3]
+
+- add_model:
+    name: camera1
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_left
+    child: camera1::base
+
+- add_frame:
+    name: camera_table_right
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, -90.0]}
+        translation: [-0.9, 0., 0.3]
+
+- add_model:
+    name: camera2
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_right
+    child: camera2::base
+
+- add_frame:
+    name: camera_behind_table
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.0, -0.45, 0.3]
+
+- add_model:
+    name: camera4
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table
+    child: camera4::base
