@@ -72,13 +72,13 @@ directives:
     X_PC:
         translation: [1.0, 0.25, 0.53]
 
-- add_model:
-    name: book_A
-    file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
-    default_free_body_pose:
-        book:
-            translation: [0.45999999999999996, 0.25, 0.64]
-            rotation: !Rpy { deg: [0, 0, -90]}
+# - add_model:
+#     name: book_A
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.45999999999999996, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
 
 # - add_model:
 #     name: mobile_iiwa

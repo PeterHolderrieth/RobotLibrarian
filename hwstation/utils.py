@@ -12,7 +12,8 @@ from pydrake.all import (
     Parser, 
     AddMultibodyPlantSceneGraph,
     MeshcatVisualizer,
-    Diagram
+    Diagram,
+    Context
 )
 
 from manipulation.station import AddPointClouds
@@ -45,17 +46,19 @@ def setup_builder(meshcat: Meshcat, scenario_data: str):
     
     return builder, plant, scene_graph, station, parser, scenario
 
-def plot_and_simulate(meshcat: Meshcat, builder: DiagramBuilder, plant: MultibodyPlant, station: Diagram, time_end: float):
+def plot_and_simulate(meshcat: Meshcat, builder: DiagramBuilder, plant: MultibodyPlant, station: Diagram, time_end: float, context: Context = None):
     plant.Finalize()
     visualizer = MeshcatVisualizer.AddToBuilder(builder, station.GetOutputPort("query_object"), meshcat)
     diagram = builder.Build()
     diagram.set_name("plant and scene_graph")
-    context = diagram.CreateDefaultContext()
+    if context is None:
+        print("(WARNING): Creating novel context")
+        context = diagram.CreateDefaultContext()
     diagram.ForcedPublish(context)
     simulator = Simulator(diagram)
     plant_context = plant.GetMyContextFromRoot(simulator.get_mutable_context())
     simulator.AdvanceTo(time_end)
-    return diagram, plant_context, simulator
-    
+    return diagram, plant_context, simulator, context
+
 def visualize_diagram(diagram: Diagram):
     return SVG(pydot.graph_from_dot_data(diagram.GetGraphvizString())[0].create_svg())
