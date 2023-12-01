@@ -163,3 +163,6 @@ directives:
 - add_weld:
     parent: camera_behind_table
     child: camera4::base
+    
+# model_drivers:
+#     mobile_iiwa: !InverseDynamicsDriver {}

@@ -213,6 +213,12 @@ cameras:
             base_frame: camera_behind_table
 """ + scenario_data
 
+def add_model_driver(scenario_data):
+    return scenario_data + """
+model_drivers:
+    mobile_iiwa: !InverseDynamicsDriver {}
+"""
+
 def get_library_scenario_data() -> str:
     """Add all objects to library environment"""
     
@@ -224,7 +230,8 @@ def get_library_scenario_data() -> str:
     scenario_data = add_mobile_iiwa(scenario_data)
     scenario_data = add_camera_visual(scenario_data)
     scenario_data = add_cameras(scenario_data)
-
+    scenario_data = add_model_driver(scenario_data)
+    
     return scenario_data
 
 def get_library_scenario_data_without_robot() -> str:
