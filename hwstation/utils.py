@@ -39,7 +39,7 @@ from manipulation.station import AddPointClouds
 from enum import Enum
 import pydot
 
-def init_diagram(meshcat: Meshcat, scenario_data: str):
+def init_builder(meshcat: Meshcat, scenario_data: str):
     meshcat.Delete()
     builder = DiagramBuilder()
     scenario = load_scenario(data=scenario_data)
@@ -66,6 +66,14 @@ def init_diagram(meshcat: Meshcat, scenario_data: str):
     )
 
     visualizer = MeshcatVisualizer.AddToBuilder(builder, station.GetOutputPort("query_object"), meshcat)
+    print("Station input port size: ", station.GetInputPort("mobile_iiwa.desired_state"))
+    plant = station.GetSubsystemByName("plant")
+    print("plant.GetStateNames(): ", len(plant.GetStateNames()))
+    print("plant.GetActuatorNames(): ", len(plant.GetActuatorNames()))
+    return builder, visualizer, station
+
+def init_diagram(meshcat: Meshcat, scenario_data: str):
+    builder, visualizer, station = init_builder(meshcat, scenario_data)
     diagram = builder.Build()
     diagram.set_name("plant and scene_graph")
     simulator = Simulator(diagram)
@@ -74,6 +82,7 @@ def init_diagram(meshcat: Meshcat, scenario_data: str):
 def fix_input_port(diagram: Diagram, simulator: Simulator):
     sim_context = simulator.get_mutable_context()
     x0 = diagram.GetOutputPort("mobile_iiwa.state_estimated").Eval(sim_context)
+    print("Fixing input port of size: ", len(x0))
     diagram.GetInputPort("mobile_iiwa.desired_state").FixValue(sim_context, x0)
 
 def visualize_diagram(diagram: Diagram):
