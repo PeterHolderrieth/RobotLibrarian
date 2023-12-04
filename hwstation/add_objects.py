@@ -224,6 +224,7 @@ def add_model_driver(scenario_data):
     return scenario_data + """
 model_drivers:
     mobile_iiwa: !InverseDynamicsDriver {}
+    wsg: !SchunkWsgDriver {}
 """
 
 def get_library_scenario_data() -> str:

@@ -64,6 +64,24 @@ def init_builder(meshcat: Meshcat, scenario_data: str):
         station.GetInputPort("mobile_iiwa.desired_state"),
         "mobile_iiwa.desired_state"
     )
+    
+    builder.ExportInput(
+        station.GetInputPort("wsg.position"),
+        "wsg.position"
+    )
+    builder.ExportInput(
+        station.GetInputPort("wsg.force_limit"),
+        "wsg.force_limit"
+    )
+
+    builder.ExportOutput(
+        station.GetOutputPort("wsg.state_measured"),
+        "wsg.state_measured"
+    )
+    builder.ExportOutput(
+        station.GetOutputPort("wsg.force_measured"),
+        "wsg.force_measured"
+    )
 
     visualizer = MeshcatVisualizer.AddToBuilder(builder, station.GetOutputPort("query_object"), meshcat)
     print("Station input port size: ", station.GetInputPort("mobile_iiwa.desired_state"))
@@ -80,10 +98,16 @@ def init_diagram(meshcat: Meshcat, scenario_data: str):
     return diagram, visualizer, simulator
 
 def fix_input_port(diagram: Diagram, simulator: Simulator):
+    
     sim_context = simulator.get_mutable_context()
+
     x0 = diagram.GetOutputPort("mobile_iiwa.state_estimated").Eval(sim_context)
     print("Fixing input port of size: ", len(x0))
     diagram.GetInputPort("mobile_iiwa.desired_state").FixValue(sim_context, x0)
+
+    wsgx0 = [0.1] #diagram.GetOutputPort("wsg.state_measured").Eval(sim_context)[0]]
+    print("Fixing input port of size: ", len(wsgx0))
+    diagram.GetInputPort("wsg.position").FixValue(sim_context, wsgx0)
 
 def visualize_diagram(diagram: Diagram):
     return SVG(pydot.graph_from_dot_data(diagram.GetGraphvizString())[0].create_svg())
