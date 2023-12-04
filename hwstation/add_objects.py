@@ -90,6 +90,11 @@ def add_books(scenario_data) -> str:
         translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
         rotation: !Rpy { deg: [0, 0, -90]}
 """
+#     default_free_body_pose:
+#         books:
+#             translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+# """
     return scenario_data
 
 #Note the camera frames are as follows:
