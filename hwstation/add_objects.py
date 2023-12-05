@@ -83,18 +83,17 @@ def add_books(scenario_data) -> str:
 - add_model:
     name: book_"""+str(book_names[idx])+"""
     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
-- add_weld:
-    parent: world
-    child: book_"""+str(book_names[idx])+"""::book
-    X_PC:
-        translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
-        rotation: !Rpy { deg: [0, 0, -90]}
+    default_free_body_pose:
+        book:
+            translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
+            rotation: !Rpy { deg: [0, 0, -90]}
 """
-#     default_free_body_pose:
-#         books:
-#             translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
-#             rotation: !Rpy { deg: [0, 0, -90]}
-# """
+# - add_weld:
+#     parent: world
+#     child: book_"""+str(book_names[idx])+"""::book
+#     X_PC:
+#         translation: ["""+str(book_translation[0])+""", """+str(book_translation[1])+""", """+str(book_translation[2])+"""]
+#         rotation: !Rpy { deg: [0, 0, -90]}
     return scenario_data
 
 #Note the camera frames are as follows:
