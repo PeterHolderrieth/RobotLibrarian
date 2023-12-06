@@ -43,6 +43,7 @@ def init_builder(meshcat: Meshcat, scenario_data: str):
     meshcat.Delete()
     builder = DiagramBuilder()
     scenario = load_scenario(data=scenario_data)
+    
     station = builder.AddSystem(MakeHardwareStation(scenario, meshcat,parser_preload_callback=ConfigureParser))
 
     # Adding point cloud extractors:
@@ -93,7 +94,7 @@ def init_builder(meshcat: Meshcat, scenario_data: str):
 def init_diagram(meshcat: Meshcat, scenario_data: str):
     builder, visualizer, station = init_builder(meshcat, scenario_data)
     diagram = builder.Build()
-    diagram.set_name("plant and scene_graph")
+    #diagram.set_name("plant and scene_graph")
     simulator = Simulator(diagram)
     return diagram, visualizer, simulator
 
@@ -102,6 +103,7 @@ def fix_input_port(diagram: Diagram, simulator: Simulator):
     sim_context = simulator.get_mutable_context()
 
     x0 = diagram.GetOutputPort("mobile_iiwa.state_estimated").Eval(sim_context)
+    x0[2] = 0.001
     print("Fixing input port of size: ", len(x0))
     diagram.GetInputPort("mobile_iiwa.desired_state").FixValue(sim_context, x0)
 

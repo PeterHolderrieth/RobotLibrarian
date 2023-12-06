@@ -230,7 +230,7 @@ def get_library_scenario_data() -> str:
     """Add all objects to library environment"""
     
     scenario_data = get_empty_scenario_data()
-    scenario_data = add_ground_floor(scenario_data)
+    #scenario_data = add_ground_floor(scenario_data)
     scenario_data = add_shelves(scenario_data)
     scenario_data = add_table(scenario_data)
     scenario_data = add_books(scenario_data)
@@ -245,7 +245,7 @@ def get_library_scenario_data_without_robot() -> str:
     """Add all objects to library environment"""
     
     scenario_data = get_empty_scenario_data()
-    scenario_data = add_ground_floor(scenario_data)
+    #scenario_data = add_ground_floor(scenario_data)
     scenario_data = add_shelves(scenario_data)
     scenario_data = add_table(scenario_data)
     scenario_data = add_books(scenario_data)
