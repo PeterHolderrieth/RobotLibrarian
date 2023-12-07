@@ -86,7 +86,8 @@ class Problem:
                  start,
                  goal,
                  cspace,
-                 display_tree=False):
+                 display_tree=False,
+                 debug=False):
         """
         Defines a motion planning problem.
 
@@ -109,7 +110,7 @@ class Problem:
         self.region = AABB(Point(0, 0), Point(x, y))
         self.cspace = cspace
         self.display_tree = display_tree
-
+        self.debug = debug
         assert self.valid_configuration(self.start)
         assert self.valid_configuration(self.goal)
 
@@ -200,6 +201,9 @@ class Problem:
         Returns:
             bool. True if the given configuration is valid, False otherwise
         """
+        print("self.collide: ", self.collide(configuration))
+        print("self.valid configuration: ", self.cspace.valid_configuration(configuration))
+
         return self.cspace.valid_configuration(configuration) \
             and not self.collide(configuration)
 
