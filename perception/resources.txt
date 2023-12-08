@@ -1,5 +1,0 @@
-- CLIP + Segment anything for detecting correct book: https://github.com/maxi-w/CLIP-SAM/blob/main/main.ipynb
-(I got this to work but the performance is low.)
-- Segment anything: https://github.com/facebookresearch/segment-anything/tree/main
-(need to download models from there)
-- GroundingDINO: https://github.com/IDEA-Research/GroundingDINO

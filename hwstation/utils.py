@@ -21,7 +21,10 @@ from pydrake.all import (
     TrajectorySource,
     Solve,
     RotationMatrix,
-    MultibodyPlant
+    MultibodyPlant,
+    CollisionFilterDeclaration,
+    GeometrySet,
+    Role,
 )
 from pydrake.geometry import Meshcat
 from pydrake.multibody import inverse_kinematics
@@ -113,3 +116,67 @@ def fix_input_port(diagram: Diagram, simulator: Simulator):
 
 def visualize_diagram(diagram: Diagram):
     return SVG(pydot.graph_from_dot_data(diagram.GetGraphvizString())[0].create_svg())
+
+def filterCollsionGeometry(scene_graph, context=None):
+    """Some robot models may appear to have self collisions due to overlapping collision geometries.
+    This function filters out such problems for our PR2 model."""
+    if context is None:
+        filter_manager = scene_graph.collision_filter_manager()
+    else:
+        filter_manager = scene_graph.collision_filter_manager(context)
+    inspector = scene_graph.model_inspector()
+
+    book = {}
+    shelf = {}
+    table = {}
+
+    for gid in inspector.GetGeometryIds(
+        GeometrySet(inspector.GetAllGeometryIds()), Role.kProximity
+    ):
+        gid_name = inspector.GetName(inspector.GetFrameId(gid))
+
+        if "book" in gid_name:
+            link_name = gid_name.split("::")[1]
+            book[link_name] = [gid]
+
+        if "table" in gid_name:
+            link_name = gid_name.split("::")[1]
+            table[link_name] = [gid]
+
+        if "shelf" in gid_name:
+            link_name = gid_name.split("::")[1]
+            shelf[link_name] = [gid]
+
+    def add_exclusion(set1, set2=None):
+        if set2 is None:
+            filter_manager.Apply(
+                CollisionFilterDeclaration().ExcludeWithin(GeometrySet(set1))
+            )
+        else:
+            filter_manager.Apply(
+                CollisionFilterDeclaration().ExcludeBetween(
+                    GeometrySet(set1), GeometrySet(set2)
+                )
+            )
+
+    # Exclude collisions between book and table
+    for _, book_ids in book.items():
+        for _, table_piece_ids in table.items():
+            add_exclusion(
+                table_piece_ids, book_ids
+            )
+
+    # Exclude collisions between book and shelf
+    for _, book_ids in book.items():
+        for _, shelf_piece_ids in shelf.items():
+            add_exclusion(
+                shelf_piece_ids, book_ids
+            )
+
+def get_iiwa_joint_state(diagram: Diagram, diagram_context: Context):
+    plant = diagram.GetSubsystemByName("station").GetSubsystemByName("plant")
+    plant_context = plant.GetMyContextFromRoot(diagram_context)
+    q0 = plant.GetPositions(
+                plant_context, plant.GetModelInstanceByName("mobile_iiwa")
+            )
+    return q0
