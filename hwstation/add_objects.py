@@ -63,7 +63,7 @@ def add_table(scenario_data) -> str:
     scenario_data += """
 - add_model:
     name: table
-    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_table.sdf
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_table_hydro.sdf
 - add_weld:
     parent: world
     child: table
@@ -181,7 +181,7 @@ def add_mobile_iiwa(scenario_data) -> str:
         iiwa_base_z: [0]
 - add_model:
     name: wsg
-    file: package://drake/manipulation/models/wsg_50_description/sdf/schunk_wsg_50_with_tip.sdf
+    file: package://manipulation/hydro/schunk_wsg_50_with_tip.sdf
 - add_weld:
     parent: mobile_iiwa::iiwa_link_7
     child: wsg::body
@@ -189,6 +189,16 @@ def add_mobile_iiwa(scenario_data) -> str:
         translation: [0, 0, 0.09]
         rotation: !Rpy { deg: [90, 0, 90]}
     """
+# - add_model:
+#     name: wsg
+#     file: package://drake/manipulation/models/wsg_50_description/sdf/schunk_wsg_50_with_tip.sdf
+# - add_weld:
+#     parent: mobile_iiwa::iiwa_link_7
+#     child: wsg::body
+#     X_PC:
+#         translation: [0, 0, 0.09]
+#         rotation: !Rpy { deg: [90, 0, 90]}
+#     """
     return scenario_data
 
 def add_cameras(scenario_data):
