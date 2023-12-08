@@ -4,7 +4,8 @@
     <link name='book'>
       <inertial>
         <pose>0.0029333550468355002 0.013336902079011517 0.0001345895937459422 0 0 0</pose>
-        <mass>0.42451409265198736</mass>
+        <!-- <mass>0.42451409265198736</mass> should scale the inertia too -->
+        <mass>0.3</mass>
         <inertia>
           <ixx>0.0008139452898571911</ixx>
           <ixy>1.1537560381548705e-06</ixy>
@@ -35,8 +36,8 @@
              contact model for this body. To use point contact instead, delete
              or comment out the <drake:rigid_hydroelastic> element. -->
         <drake:proximity_properties>
-          <drake:mu_dynamic>0.5</drake:mu_dynamic>
-          <drake:mu_static>0.5</drake:mu_static>
+          <drake:mu_dynamic>0.9</drake:mu_dynamic>
+          <drake:mu_static>0.9</drake:mu_static>
           <drake:rigid_hydroelastic/>
         </drake:proximity_properties>
       </collision>

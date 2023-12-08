@@ -96,5 +96,8 @@ def sample_grasps(cloud: PointCloud, diagram: Diagram, diagram_context: Context)
 
     best_grasp_idx = np.argmin(((positions-wsg_position)**2).sum(axis=1))
     X_G_optim = min_cost_XGs[best_grasp_idx]
+    # X_G_optim = min_cost_XGs[0]
+    # code right above trying to just get the most optimal grasp
+    # TA suggestions: try to minimize both rotation and cost to get best grasp instead
 
     return X_G_optim
