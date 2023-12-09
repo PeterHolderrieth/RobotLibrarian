@@ -23,6 +23,8 @@ from pydrake.all import (
     RotationMatrix,
     MultibodyPlant,
     eq,
+    le,
+    ge,
     StateInterpolatorWithDiscreteDerivative,
     MinimumDistanceLowerBoundConstraint,
     RollPitchYaw,
@@ -60,6 +62,7 @@ from rrt.rrt_planner_helpers.robot import (
     ConfigurationSpace,
     Range,
 )
+from typing import Tuple, List, Dict
 
 class IKSolver(object):
     def __init__(self):
@@ -88,6 +91,7 @@ class IKSolver(object):
         self.plant_iiwa = plant_mobile_iiwa
         self.plant_context = plant_mobile_context
         self.X_L7G = X_L7G
+        self.joint_limits = get_joint_limits(self.plant_iiwa)
 
     def solve(self, X_WT, q_guess=None, theta_bound=0.01, position_bound=0.01):
         """
@@ -116,6 +120,7 @@ class IKSolver(object):
             R_BbarB=R_WT,
             theta_bound=position_bound,
         )
+
         # align point Q in frame B to the bounding box in frame A
         ik_instance.AddPositionConstraint(
             frameB=l7_frame,
@@ -127,6 +132,10 @@ class IKSolver(object):
         )
         prog = ik_instance.prog()
         prog.SetInitialGuess(ik_instance.q(), q_guess)
+        
+        prog.AddConstraint(le(ik_instance.q(),self.joint_limits[:,1]))
+        prog.AddConstraint(ge(ik_instance.q(),self.joint_limits[:,0]))
+
         result = Solve(prog)
         if result.get_solution_result() != SolutionResult.kSolutionFound:
             return result.GetSolution(ik_instance.q()), False
@@ -186,6 +195,53 @@ class ManipulationStationSim:
         collision_pairs = query_object.ComputePointPairPenetration()
         return len(collision_pairs) > 0
 
+def get_joint_limits(plant: MultibodyPlant,
+        x_limits: Tuple[float,float] = (0.0,20.0),
+        y_limits: Tuple[float,float] = (0.0,20.0),
+        z_limits: Tuple[float,float] = (0.0,0.25),
+        joint_limits_dict: Dict[str,Tuple[float,float]] = {}):
+
+    nq = 10
+    joint_limits = np.zeros((nq, 2))
+    
+    joint = plant.GetJointByName("iiwa_base_x")
+    joint_limits[0, 0] = x_limits[0]
+    joint_limits[0, 1] = x_limits[1]
+
+    joint = plant.GetJointByName("iiwa_base_y")
+    joint_limits[1, 0] = y_limits[0]
+    joint_limits[1, 1] = y_limits[1]
+
+    joint = plant.GetJointByName("iiwa_base_z")
+    joint_limits[2, 0] = z_limits[0]
+    joint_limits[2, 1] = z_limits[1]
+
+
+    for i in range(4,nq):
+        joint_name = "iiwa_joint_%i" % (i-2)
+        joint = plant.GetJointByName("iiwa_joint_%i" % (i-2))
+        if joint_limits_dict.get(joint_name,False):
+            joint_limits[i, 0] = max(joint_limits_dict[joint_name][0],joint.position_lower_limits())
+            joint_limits[i, 1] = min(joint_limits_dict[joint_name][1],joint.position_upper_limits())
+        else:
+            joint_limits[i, 0] = joint.position_lower_limits()
+            joint_limits[i, 1] = joint.position_upper_limits()
+
+
+    #Special case: Joint 1 (shouldn't be infinity)
+    # joint_limits[3, 0] = max(-10, joint_limits[3, 0])
+    # joint_limits[3, 1] = min(10, joint_limits[3, 1])
+
+    joint_name = "iiwa_joint_1"
+    if joint_limits_dict.get(joint_name,False):
+        joint_limits[3, 0] = max(joint_limits_dict[joint_name][0],-10)
+        joint_limits[3, 1] = min(joint_limits_dict[joint_name][1],10)
+    else:
+        joint_limits[3, 0] = -10
+        joint_limits[3, 1] = 10
+
+    return joint_limits
+
 class IiwaProblem(Problem):
     def __init__(
         self,
@@ -194,27 +250,18 @@ class IiwaProblem(Problem):
         gripper_setpoint: float,
         collision_checker: ManipulationStationSim,
         debug: bool = False,
+        x_limits: Tuple[float,float] = (0.0,20.0),
+        y_limits: Tuple[float,float] = (0.0,20.0),
+        z_limits: Tuple[float,float] = (0.0,0.25),
+        joint_limits_dict: Dict[str,Tuple[float,float]] = {},
     ):
         self.gripper_setpoint = gripper_setpoint
         self.collision_checker = collision_checker
-        plant = self.collision_checker.plant
+ 
+        joint_limits = get_joint_limits(plant = self.collision_checker.plant,
+        x_limits=x_limits,y_limits=y_limits,z_limits=z_limits,
+        joint_limits_dict = joint_limits_dict)
         nq = 10
-        joint_limits = np.zeros((nq, 2))
-        
-        #DEBUG: remove z
-        for idx,joint_char in enumerate(["x","y","z"]):
-            joint = plant.GetJointByName("iiwa_base_"+joint_char)
-            joint_limits[idx, 0] = joint.position_lower_limits()
-            joint_limits[idx, 1] = joint.position_upper_limits()
-        
-        # joint = plant.GetJointByName("iiwa_joint_z")
-        # joint_limits[2, 0] = 0.0
-        # joint_limits[2, 1] = 0.0
-
-        for i in range(3,nq):
-            joint = plant.GetJointByName("iiwa_joint_%i" % (i-2))
-            joint_limits[i, 0] = joint.position_lower_limits()
-            joint_limits[i, 1] = joint.position_upper_limits()
 
         range_list = []
         for joint_limit in joint_limits:
