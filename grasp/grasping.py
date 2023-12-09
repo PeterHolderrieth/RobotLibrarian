@@ -101,3 +101,27 @@ def sample_grasps(cloud: PointCloud, diagram: Diagram, diagram_context: Context)
     # TA suggestions: try to minimize both rotation and cost to get best grasp instead
 
     return X_G_optim
+
+SHELF_WIDTH = 0.6
+SHELF_HEIGHT = 0.783
+
+def get_shelf_frame(diagram: Diagram, diagram_context: Context, go_to_shelf: str) -> RigidTransform:
+    plant = diagram.GetSubsystemByName("station").GetSubsystemByName("plant")
+    shelfModelInstance = plant.GetModelInstanceByName(f"shelf_{go_to_shelf}")
+    shelf_frame = plant.GetFrameByName("shelves_body", model_instance=shelfModelInstance)
+    plant_context = plant.GetMyContextFromRoot(diagram_context)
+    shelf_rgtr = shelf_frame.CalcPoseInWorld(plant_context)
+    return shelf_rgtr
+
+def get_shelf_placement_frame(diagram: Diagram, diagram_context: Context, go_to_shelf: str, row: int, column: int) -> RigidTransform:
+    shelf_rgtr = get_shelf_frame(diagram, diagram_context, go_to_shelf)
+    translation_from_shelf_frame = np.array([
+        0.0,
+        (1-2*column)*SHELF_WIDTH/4,
+        (row-1)*SHELF_HEIGHT/3,
+    ])
+    to_box_translation = RigidTransform(p=translation_from_shelf_frame)
+    return shelf_rgtr.multiply(to_box_translation)
+
+def compute_pre_placement_frame(placement_frame: RigidTransform):
+    return RigidTransform(placement_frame.rotation(), placement_frame.translation() + SHELF_WIDTH * np.array([-1,0.0,0.0]))

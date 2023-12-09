@@ -180,3 +180,8 @@ def get_iiwa_joint_state(diagram: Diagram, diagram_context: Context):
                 plant_context, plant.GetModelInstanceByName("mobile_iiwa")
             )
     return q0
+
+def visualize_frame(name: str, meshcat: Meshcat, X_trans: RigidTransform, length=0.08, radius=0.006):
+    AddMeshcatTriad(
+    meshcat, f"painter/{name}", length=length, radius=radius, X_PT=X_trans,
+)
