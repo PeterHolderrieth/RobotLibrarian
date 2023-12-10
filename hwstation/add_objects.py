@@ -9,7 +9,7 @@ N_ROWS = 3
 N_COLUMNS = 2
 SHELF_NAMES = "ABCDEFGHIJKLMNOPQRST"
 TABLE_OFFSET = [1.0,0.25,0.53]
-N_BOOKS = 1
+N_BOOKS = 10
 BOOK_DIST = 0.13
 
 def get_empty_scenario_data() -> str:
@@ -147,19 +147,80 @@ def add_camera_visual(scenario_data) -> str:
     child: camera2::base
 
 - add_frame:
-    name: camera_behind_table
+    name: camera_behind_table_1
     X_PF:
         base_frame: table
         rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
-        translation: [0.0, -0.45, 0.3]
+        translation: [0.5, -0.45, 0.3]
+
+- add_model:
+    name: camera3
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_1
+    child: camera3::base
+
+- add_frame:
+    name: camera_behind_table_2
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.25, -0.45, 0.3]
 
 - add_model:
     name: camera4
     file: package://manipulation/camera_box.sdf
 
 - add_weld:
-    parent: camera_behind_table
+    parent: camera_behind_table_2
     child: camera4::base
+
+- add_frame:
+    name: camera_behind_table_3
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.0, -0.45, 0.3]
+
+- add_model:
+    name: camera5
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_3
+    child: camera5::base
+
+- add_frame:
+    name: camera_behind_table_4
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.25, -0.45, 0.3]
+
+- add_model:
+    name: camera6
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_4
+    child: camera6::base
+
+- add_frame:
+    name: camera_behind_table_5
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.5, -0.45, 0.3]
+
+- add_model:
+    name: camera7
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_5
+    child: camera7::base
+
 """
     return scenario_data
 
@@ -226,7 +287,32 @@ cameras:
         name: table_camera_3
         depth: True
         X_PB:
-            base_frame: camera_behind_table
+            base_frame: camera_behind_table_1
+    
+    camera4:
+        name: table_camera_4
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_2
+    
+    camera5:
+        name: table_camera_5
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_3
+    
+    camera6:
+        name: table_camera_6
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_4
+    
+    camera7:
+        name: table_camera_7
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_5
+
 """ + scenario_data
 
 def add_model_driver(scenario_data):

@@ -54,7 +54,7 @@ import pandas as pd
 
 def get_table_pointclouds(diagram_context: Context, diagram: Diagram):
     point_cloud_dict = {}
-    for idx in range(4):
+    for idx in range(7):
         point_cloud_dict[f"table_camera_{idx}_ptcloud"] = diagram.GetOutputPort(f"table_camera_{idx}_ptcloud").Eval(diagram_context)
     return point_cloud_dict
 

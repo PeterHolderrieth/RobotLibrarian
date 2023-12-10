@@ -1,1 +1,1 @@
-FROM russtedrake/manipulation:latest
+FROM russtedrake/manipulation:5296103
