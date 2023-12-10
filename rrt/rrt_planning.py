@@ -397,7 +397,7 @@ class RRT_tools:
         path.reverse()
         return path
 
-def rrt_planning(problem, max_iterations=1000, prob_sample_q_goal=0.05):
+def rrt_planning(problem, max_iterations=1000, prob_sample_q_goal=0.05, scale_factor_base: float = 1.0, jump_to_goal: bool = False):
     """
     Input:
         problem (IiwaProblem): instance of a utility class
@@ -418,17 +418,36 @@ def rrt_planning(problem, max_iterations=1000, prob_sample_q_goal=0.05):
         if rand < prob_sample_q_goal:
             q_sample = q_goal
         nearest_node = rrt_tools.find_nearest_node_in_RRT_graph(q_sample)
+        
+        #DEBUG:
+        #scale_factor = np.array([scale_factor_base,scale_factor_base,scale_factor_base,1.0,1.0,1.0,1.0,1.0,1.0,1.0])
+        #q_sample = scale_factor*(np.array(q_sample)-np.array(nearest_node.value))+np.array(nearest_node.value)
+        #q_sample = tuple(q_sample.tolist())
         q_list = rrt_tools.calc_intermediate_qs_wo_collision(nearest_node.value, q_sample)
 
         last_node = nearest_node
+        path_found = False
         for q_i in q_list:
             last_node = rrt_tools.grow_rrt_tree(last_node, q_i)
-        
 
-        path_found = rrt_tools.node_reaches_goal(last_node)
-        if hasattr(path_found, "__len__"):
-            path_found = all(rrt_tools.node_reaches_goal(last_node))
+            #DEBUG: comment out below block
+            if not jump_to_goal:
+                continue
+            if np.linalg.norm(np.array(last_node.value)-np.array(q_goal)) < 1.0:
+                print("Checking whether are close enough to goal to connect. Almost there.")
+                q_list_to_goal = rrt_tools.calc_intermediate_qs_wo_collision(last_node.value, q_goal)
+                if hasattr(q_list_to_goal, "__len__"):
+                    if (np.array(q_list_to_goal[-1]) == np.array(q_goal)).all():
+                        for q_i_to_goal in q_list_to_goal:
+                            last_node = rrt_tools.grow_rrt_tree(last_node, q_i_to_goal)
+                        path_found = True
+                        break
         
+        if not jump_to_goal:
+            path_found = rrt_tools.node_reaches_goal(last_node)
+            if hasattr(path_found, "__len__"):
+                path_found = all(rrt_tools.node_reaches_goal(last_node))
+
         if path_found:
             path = rrt_tools.backup_path_from_node(last_node)
             return path
