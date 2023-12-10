@@ -56,12 +56,12 @@ def make_internal_model():
     parser = Parser(plant)
     ConfigureParser(parser)
 
-    parser.AddModelsFromUrl("file:///workspaces/RobotLibrarian/hwstation/objects/library_setup_floating_gripper.dmd.yaml")
+    parser.AddModelsFromUrl("file:///workspaces/RobotLibrarian/hwstation/objects/library_setup_floating_gripper_multiple_books.dmd.yaml")
     plant.Finalize()
 
     return builder.Build()
 
-def sample_grasps(cloud: PointCloud, diagram: Diagram, diagram_context: Context):
+def sample_grasps(cloud: PointCloud, diagram: Diagram, diagram_context: Context, n_samples: int = 100):
     rng = np.random.default_rng()
     # Now find grasp poses
     # X_Gs will have the poses to be used for planning when working on that step
@@ -69,13 +69,15 @@ def sample_grasps(cloud: PointCloud, diagram: Diagram, diagram_context: Context)
     internal_model_context = internal_model.CreateDefaultContext()
     costs = []
     X_Gs = []
-    for i in range(100 if running_as_notebook else 2):
+    for i in range(n_samples):
         cost, X_G = GenerateAntipodalGraspCandidate(
             internal_model, internal_model_context, cloud, rng
         )
         if np.isfinite(cost):
             costs.append(cost)
             X_Gs.append(X_G)
+    
+    print("Found ", len(X_Gs), " grasp candidates.")
 
     indices = np.asarray(costs).argsort()[:5]
     min_cost_XGs = []

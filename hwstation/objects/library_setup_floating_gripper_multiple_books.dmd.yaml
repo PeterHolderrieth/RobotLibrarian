@@ -1,0 +1,326 @@
+directives:
+- add_model:
+    name: shelf_A
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_A::shelves_body
+    X_PC:
+        translation: [1.7, 2.4, 0.42]
+
+- add_model:
+    name: shelf_B
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_B::shelves_body
+    X_PC:
+        translation: [1.7, 4.1, 0.42]
+
+- add_model:
+    name: shelf_C
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_C::shelves_body
+    X_PC:
+        translation: [4.2, 2.4, 0.42]
+
+- add_model:
+    name: shelf_D
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_D::shelves_body
+    X_PC:
+        translation: [4.2, 4.1, 0.42]
+
+- add_model:
+    name: shelf_E
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_E::shelves_body
+    X_PC:
+        translation: [6.7, 2.4, 0.42]
+
+- add_model:
+    name: shelf_F
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_shelf.sdf
+- add_weld:
+    parent: world
+    child: shelf_F::shelves_body
+    X_PC:
+        translation: [6.7, 4.1, 0.42]
+
+- add_model:
+    name: table
+    file: file:///workspaces/RobotLibrarian/hwstation/objects/library_table_hydro.sdf
+- add_weld:
+    parent: world
+    child: table
+    X_PC:
+        translation: [1.0, 0.25, 0.53]
+
+# - add_model:
+#     name: book_A
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.45999999999999996, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_B
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.59, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_C
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.72, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_D
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.85, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_E
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [0.98, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_F
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [1.1099999999999999, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_G
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [1.24, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_H
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [1.37, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_I
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [1.5, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: book_J
+#     file: file:///workspaces/RobotLibrarian/hwstation/objects/book.sdf
+#     default_free_body_pose:
+#         book:
+#             translation: [1.63, 0.25, 0.64]
+#             rotation: !Rpy { deg: [0, 0, -90]}
+
+# - add_model:
+#     name: mobile_iiwa
+#     file: package://manipulation/mobile_iiwa14_primitive_collision.urdf
+#     default_joint_positions:
+#         iiwa_joint_1: [-1.57]
+#         iiwa_joint_2: [0.1]
+#         iiwa_joint_3: [0]
+#         iiwa_joint_4: [-1.2]
+#         iiwa_joint_5: [0]
+#         iiwa_joint_6: [ 1.6]
+#         iiwa_joint_7: [0]
+#         iiwa_base_x: [1]
+#         iiwa_base_y: [1.5]
+#         iiwa_base_z: [0]
+# - add_model:
+#     name: wsg
+#     file: package://manipulation/hydro/schunk_wsg_50_with_tip.sdf
+# - add_weld:
+#     parent: mobile_iiwa::iiwa_link_7
+#     child: wsg::body
+#     X_PC:
+#         translation: [0, 0, 0.09]
+#         rotation: !Rpy { deg: [90, 0, 90]}
+
+- add_model:
+    name: gripper
+    file: package://manipulation/schunk_wsg_50_welded_fingers.sdf
+    
+- add_frame:
+    name: camera_table_above
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [180.0, 0.0, 0.0]}
+        translation: [0., 0., 0.7]
+
+- add_model:
+    name: camera0
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_above
+    child: camera0::base
+
+- add_frame:
+    name: camera_table_left
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 90.0]}
+        translation: [0.9, 0., 0.3]
+
+- add_model:
+    name: camera1
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_left
+    child: camera1::base
+
+- add_frame:
+    name: camera_table_right
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, -90.0]}
+        translation: [-0.9, 0., 0.3]
+
+- add_model:
+    name: camera2
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_table_right
+    child: camera2::base
+
+- add_frame:
+    name: camera_behind_table_1
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.5, -0.45, 0.3]
+
+- add_model:
+    name: camera3
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_1
+    child: camera3::base
+
+- add_frame:
+    name: camera_behind_table_2
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.25, -0.45, 0.3]
+
+- add_model:
+    name: camera4
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_2
+    child: camera4::base
+
+- add_frame:
+    name: camera_behind_table_3
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.0, -0.45, 0.3]
+
+- add_model:
+    name: camera5
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_3
+    child: camera5::base
+
+- add_frame:
+    name: camera_behind_table_4
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.25, -0.45, 0.3]
+
+- add_model:
+    name: camera6
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_4
+    child: camera6::base
+
+- add_frame:
+    name: camera_behind_table_5
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.5, -0.45, 0.3]
+
+- add_model:
+    name: camera7
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_5
+    child: camera7::base
+
+- add_frame:
+    name: camera_behind_table_6
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.75, -0.45, 0.3]
+
+- add_model:
+    name: camera8
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_6
+    child: camera8::base
+
+- add_frame:
+    name: camera_behind_table_7
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.75, -0.45, 0.3]
+
+- add_model:
+    name: camera9
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_7
+    child: camera9::base
+
+
+# model_drivers:
+#     mobile_iiwa: !InverseDynamicsDriver {}
+#     wsg: !SchunkWsgDriver {}

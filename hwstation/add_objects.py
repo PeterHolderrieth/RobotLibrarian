@@ -9,8 +9,8 @@ N_ROWS = 3
 N_COLUMNS = 2
 SHELF_NAMES = "ABCDEFGHIJKLMNOPQRST"
 TABLE_OFFSET = [1.0,0.25,0.53]
-N_BOOKS = 10
-BOOK_DIST = 0.13
+N_BOOKS = 6 #10
+BOOK_DIST = 0.20 #0.13 
 
 def get_empty_scenario_data() -> str:
     scenario_data = "directives:"
@@ -221,6 +221,36 @@ def add_camera_visual(scenario_data) -> str:
     parent: camera_behind_table_5
     child: camera7::base
 
+- add_frame:
+    name: camera_behind_table_6
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [-0.75, -0.45, 0.3]
+
+- add_model:
+    name: camera8
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_6
+    child: camera8::base
+
+- add_frame:
+    name: camera_behind_table_7
+    X_PF:
+        base_frame: table
+        rotation: !Rpy { deg: [-100.0, 0.0, 0.0]}
+        translation: [0.75, -0.45, 0.3]
+
+- add_model:
+    name: camera9
+    file: package://manipulation/camera_box.sdf
+
+- add_weld:
+    parent: camera_behind_table_7
+    child: camera9::base
+
 """
     return scenario_data
 
@@ -312,7 +342,16 @@ cameras:
         depth: True
         X_PB:
             base_frame: camera_behind_table_5
-
+    camera8:
+        name: table_camera_8
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_6
+    camera9:
+        name: table_camera_9
+        depth: True
+        X_PB:
+            base_frame: camera_behind_table_7
 """ + scenario_data
 
 def add_model_driver(scenario_data):
@@ -322,7 +361,7 @@ model_drivers:
     wsg: !SchunkWsgDriver {}
 """
 
-def get_library_scenario_data() -> str:
+def get_library_scenario_data(cameras: bool = True) -> str:
     """Add all objects to library environment"""
     
     scenario_data = get_empty_scenario_data()
@@ -332,7 +371,8 @@ def get_library_scenario_data() -> str:
     scenario_data = add_books(scenario_data)
     scenario_data = add_mobile_iiwa(scenario_data)
     scenario_data = add_camera_visual(scenario_data)
-    scenario_data = add_cameras(scenario_data)
+    if cameras:
+        scenario_data = add_cameras(scenario_data)
     scenario_data = add_model_driver(scenario_data)
     
     return scenario_data

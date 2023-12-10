@@ -25,6 +25,7 @@ from pydrake.all import (
     CollisionFilterDeclaration,
     GeometrySet,
     Role,
+    PiecewisePolynomial,
 )
 from pydrake.geometry import Meshcat
 from pydrake.multibody import inverse_kinematics
@@ -183,5 +184,20 @@ def get_iiwa_joint_state(diagram: Diagram, diagram_context: Context):
 
 def visualize_frame(name: str, meshcat: Meshcat, X_trans: RigidTransform, length=0.08, radius=0.006):
     AddMeshcatTriad(
-    meshcat, f"painter/{name}", length=length, radius=radius, X_PT=X_trans,
-)
+    meshcat, f"painter/{name}", length=length, radius=radius, X_PT=X_trans)
+
+def save_traj(trajectory, filename, grid_points: int = 10000):
+    start_time = trajectory.start_time()
+    end_time = trajectory.end_time()
+    t_grid = np.linspace(start_time, end_time, grid_points)
+    q_grid = np.stack([trajectory.value(t) for t in t_grid]).reshape(grid_points,-1)
+    traj_arr = np.concatenate([t_grid.reshape(-1,1),q_grid],axis=1)
+    np.save(filename, traj_arr, allow_pickle=True, fix_imports=True)
+
+def load_traj(filename):
+    traj_arr = np.load(filename+".npy")
+    print(traj_arr.shape)
+    t_grid = traj_arr[:,0]
+    q_grid = traj_arr[:,1:]
+    trajectory = PiecewisePolynomial.CubicShapePreserving(t_grid, q_grid.transpose())
+    return trajectory
