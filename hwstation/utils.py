@@ -194,6 +194,14 @@ def save_traj(trajectory, filename, grid_points: int = 10000):
     traj_arr = np.concatenate([t_grid.reshape(-1,1),q_grid],axis=1)
     np.save(filename, traj_arr, allow_pickle=True, fix_imports=True)
 
+def save_traj_with_start_end_time(trajectory, filename, grid_points: int = 10000, start_time: float=0.0, end_time: float=40.0):
+    # start_time = trajectory.start_time()
+    # end_time = trajectory.end_time()
+    t_grid = np.linspace(start_time, end_time, grid_points)
+    q_grid = np.stack([trajectory.value(t) for t in t_grid]).reshape(grid_points,-1)
+    traj_arr = np.concatenate([t_grid.reshape(-1,1),q_grid],axis=1)
+    np.save(filename, traj_arr, allow_pickle=True, fix_imports=True)
+
 def load_traj(filename):
     traj_arr = np.load(filename+".npy")
     print(traj_arr.shape)
