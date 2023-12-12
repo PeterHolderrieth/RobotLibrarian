@@ -7,8 +7,4 @@ Libraries around the globe store the world’s most critical human knowledge, bu
 
 This project was part of the robotic manipulation
 
-[![Watch the video(https://github.com/PeterHolderrieth/RobotLibrarian/blob/main/figures/screen_shot_video.png)](https://www.youtube.com/watch?v=U6YdzsNt3tA)
-
-
-
-
+[![Watch our video presentation on this project](http://img.youtube.com/vi/U6YdzsNt3tA/0.jpg)](http://www.youtube.com/watch?v=U6YdzsNt3tA)
