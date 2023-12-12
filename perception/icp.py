@@ -135,7 +135,7 @@ def convert_obj_to_pc(filename: str, n_samples: int = 10000, show: bool =False) 
         scene.show()
     return np.array(point_cloud.vertices).transpose()
 
-def run_table_multi_book_icp(diagram, diagram_context, meshcat, visualize: bool = False, icp_limit: int = N_CAMERAS+10):
+def run_table_multi_book_icp(diagram, diagram_context, meshcat, visualize: bool = False, icp_limit: int = N_CAMERAS+10, align_frames: bool = True):
 
     # Point clouds to obtain the cloud we will work with for grasps:
     merged_pointcloud = get_merged_pointcloud(diagram_context, diagram)
@@ -157,20 +157,25 @@ def run_table_multi_book_icp(diagram, diagram_context, meshcat, visualize: bool 
     X_MS_hat_list = []
     cloud_list = []
     for idx, scene_pcl in enumerate(pcloud_label_list):
-        initial_guess = RigidTransform(p=[0,cluster_mean_list[idx][1],cluster_mean_list[idx][2]])
+        if align_frames:
+            initial_guess = RigidTransform(p=[0,cluster_mean_list[idx][1],cluster_mean_list[idx][2]])
+        else:
+            height_table = 0.5
+            initial_guess = RigidTransform(p=[0,0,height_table])
+
         while True:
             X_MS_hat, chat = IterativeClosestPoint(
                 p_Om=model_pcl,
                 p_Ws=scene_pcl.xyzs(),
                 X_Ohat=initial_guess,
                 meshcat=meshcat,
-                meshcat_scene_path="icp",
+                meshcat_scene_path=f"icp_{idx}",
                 max_iterations=100,
             )
             
             y_crit = np.dot(X_MS_hat.rotation().matrix()[:,1],np.array([1.0,0.0,0.0])) > 0.9
 
-            if y_crit:
+            if y_crit or (not align_frames):
 
                 transformed_model_pcl = X_MS_hat @ model_pcl
                 cloud = PointCloud(transformed_model_pcl.shape[1])
