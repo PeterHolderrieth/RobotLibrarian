@@ -125,5 +125,5 @@ def get_shelf_placement_frame(diagram: Diagram, diagram_context: Context, go_to_
     to_box_translation = RigidTransform(p=translation_from_shelf_frame)
     return shelf_rgtr.multiply(to_box_translation)
 
-def compute_pre_placement_frame(placement_frame: RigidTransform):
-    return RigidTransform(placement_frame.rotation(), placement_frame.translation() + SHELF_WIDTH * np.array([-1,0.0,0.0]))
+def compute_pre_placement_frame(placement_frame: RigidTransform, scale_factor_away: float = 1.25):
+    return RigidTransform(placement_frame.rotation(), placement_frame.translation() + SHELF_WIDTH * np.array([-scale_factor_away,0.0,0.0]))
