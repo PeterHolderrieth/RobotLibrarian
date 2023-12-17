@@ -118,7 +118,7 @@ class IKSolver(object):
             #   R_AbarA=RotationMatrix(), # for link 7
             frameBbar=world_frame,
             R_BbarB=R_WT,
-            theta_bound=position_bound,
+            theta_bound=theta_bound,
         )
 
         # align point Q in frame B to the bounding box in frame A
